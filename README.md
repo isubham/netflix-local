@@ -2,6 +2,7 @@
 
 a self-hosted Anime server for those who like to save things and watch them.
 
+[anime-server.png](./anime-server.png)
 
 ### Setup
 

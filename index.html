@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Video Streaming With Node</title>
+		<style>
+	
+
+#link {
+	padding: 1em;
+	height:600px;
+}
+
+#link li {
+	list-style: none;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	
+
+}
+
+	           </style>
+	</head>
+
+
+	<body>
+
+	<div class="left">
+		<video id="videoPlayer" width="60%" controls muted="muted" autoplay>
+		<source src="Anime/Sample.mp4" />
+		</video>
+		<h3 id="playingTitle">sample.mp4</h3>
+	</div>
+
+	<div class="right">
+		<div id="link"></div>
+	</div>
+
+	</body>
+
+
+
+	<script type="text/javascript">
+
+// get video links
+(function getVideoLinks () {
+	fetch("/details")
+	  .then((response) => response.json())
+	  .then((data) => {
+		  let links = data.videos;
+		  console.log(links);
+		populateVideoLink(links);
+	  });
+
+})();
+
+// create video links
+function createVideoLink (title, link) {
+	let container = document.querySelector("#link");
+
+	let li = document.createElement("li");
+	li.addEventListener('click', function () {
+		const videoEl = document.querySelector('#videoPlayer');
+		videoEl.setAttribute('src', link);
+
+		const playingTitle = document.querySelector('#playingTitle');
+		playingTitle.innerText = title;
+	});
+	li.innerText = title;
+	
+	container.appendChild(li);
+
+}
+
+function populateVideoLink(links) {
+	links.forEach(video => {
+		const { title, link } = video;
+		createVideoLink(title, link);
+	});
+}
+
+
+// clicking link should play the video
+	</script>
+	
+</html>
+

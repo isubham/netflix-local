@@ -8,7 +8,7 @@ I have several devices ranging from tablets to smarthphones to laptops.
 They have low storage ranging from 64GB to 128GB and in this era of streaming
 we dont usually have lots of content on our devices.
 
-[![Why Self hosting](./WhySelfHosting-1.jpg)](./WhySelfHosting-1.jpg)
+[![Why Self hosting](./doc/WhySelfHosting-1.jpg)](./doc/WhySelfHosting-1.jpg)
 
 
 I wanted to have some of my favourite shows on my own machine.

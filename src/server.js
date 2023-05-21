@@ -1,57 +1,37 @@
-import express from 'express';
-import cors from 'cors';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 // https://stackabuse.com/bytes/fix-dirname-is-not-defined-in-es-module-scope-in-javascript-node/
-import path from 'path';
-import url from 'url';
-import { Anime }from './anime.js';
-
-const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const app = express();
-app.use(cors());
-
+const path_1 = __importDefault(require("path"));
+// import * as redisWrapper from './modules/redis'
+const anime_route_1 = require("./routes/anime.route");
+const constants_1 = require("./constants");
+const url_builder_1 = require("./utils/url-builder");
+const _dirname = process.cwd();
+const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 // serve static files
-app.use(express.static(__dirname));
-app.use(express.static(path.join(__dirname, "../collection/")));
-
-
-let AnimeCache = [];
-
-// ANIME
-app.get('/anime', (req, res) => {
-	try {
-
-	const page = (req.query.page - 1) || 0;
-	const perPage = 100;
-	const getAnimeOfPage = () => {
-		const startIndex = page*perPage;
-		let endIndex = startIndex + perPage
-		if (AnimeCache.length < endIndex) {
-			endIndex =  AnimeCache.length;
-		}
-		const paggedAnime = AnimeCache.slice(startIndex, endIndex)
-		return paggedAnime;
-	}
-	if (AnimeCache.length != 0) {
-		console.log('cache hit');
-		res.send(getAnimeOfPage());
-	}
-
-	if (AnimeCache.length == 0)
-	{
-		const anime = Anime.getAnimeNames();
-		AnimeCache = anime;
-		res.send(getAnimeOfPage());
-	}
-
-	} catch (e) {
-		console.log(e);
-		res.send(e);
-	}
+app.use(express_1.default.static(_dirname));
+app.use(express_1.default.static(path_1.default.join(_dirname, "../collection/")));
+app.use("/anime", anime_route_1.animeRouter);
+app.get("/health", (req, res) => {
+    console.log("hiting health request");
+    res.status(200).send({
+        status: "healthy",
+        routes: {
+            anime: (0, url_builder_1.getRelatedUrl)('/anime')
+        }
+    });
 });
+let AnimeCache = [];
 // END OF ANIME
-const port = 8005
-app.listen(port, function () {
-	    console.log(`Listening on port ${port}!`);
+app.listen(constants_1.port, async function () {
+    // await redisWrapper.connect();
+    // AnimeCache = await getAnimeFromCache();
+    // console.log('AnimeCache length', AnimeCache.length);
+    console.log(`Listening on port ${constants_1.port}!`);
 });

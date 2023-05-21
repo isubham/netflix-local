@@ -1,3 +1,7 @@
 Anime/
 node_modules
 *.swp
+dist/
+data/
+*.js
+*.map

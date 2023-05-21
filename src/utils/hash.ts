@@ -1,11 +1,9 @@
 
-const {
-    createHash,
-} = await import('node:crypto');
+import { createHash } from 'node:crypto';
 
 class Crypto {
 
-    static sha256(data) {
+    static sha256(data: any) {
         return createHash('sha256').update(data).digest('hex');
     }; 
 }

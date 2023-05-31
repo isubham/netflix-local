@@ -1,6 +1,6 @@
-# Anime server
+# Netflix local
 
-a self-hosted Anime server for those who like to save things and watch them.
+a netflix local  for those who like to save things and watch them.
 
 ### Why self hosting 
 
